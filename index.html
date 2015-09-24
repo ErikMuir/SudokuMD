@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku MD</title>
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="styles/sweet-alert.css">
+    <link rel="stylesheet" type="text/css" href="styles/SudokuMD.css" />
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="scripts/sweet-alert.min.js"></script>
+    <script type="text/javascript" src="scripts/SudokuMD.js"></script>
+</head>
+<body>
+    <a download="sudoku.sdk" id="downloadLink" class="hidden"></a>
+    <input type="file" id="open" class="hidden" onchange="openPuzzle(this.files[0]);" />
+
+    <div id="container">
+        <!--<ul id="menuList">
+            <li><a id="newLink" onclick="newPuzzle(); return false;">New</a></li>
+            <li><a id="saveLink" onclick="savePuzzle(); return false;">Save</a></li>
+            <li><a id="loadLink" onclick="$('#open').trigger('click'); return false;">Load</a></li>
+        </ul>-->
+        <table id="headerTable">
+            <tr>
+                <td id="logo"><img src="images/SudokuMD.png" width="40" height="40" /></td>
+                <td id="title">SudokuMD</td>
+                <td id="messages"><span id="gameClock"></span></td>
+                <td id="fileMenu">
+                    <img src="images/menu-icon.png" width="40" height="30" onclick="$('#menuDiv').toggle();" />
+                </td>
+            </tr>
+        </table>
+        <div id="menuDiv" style="display: none;"></div>
+        <table id="puzzleTable">
+            <tr>
+                <td class="cell col_0 row_0 box_0" id="cell_0_0" onclick="_sudoku.changeActiveCell(0,0);"></td>
+                <td class="cell col_1 row_0 box_0" id="cell_1_0" onclick="_sudoku.changeActiveCell(1,0);"></td>
+                <td class="cell col_2 row_0 box_0" id="cell_2_0" onclick="_sudoku.changeActiveCell(2,0);"></td>
+                <td class="cell col_3 row_0 box_1" id="cell_3_0" onclick="_sudoku.changeActiveCell(3,0);"></td>
+                <td class="cell col_4 row_0 box_1" id="cell_4_0" onclick="_sudoku.changeActiveCell(4,0);"></td>
+                <td class="cell col_5 row_0 box_1" id="cell_5_0" onclick="_sudoku.changeActiveCell(5,0);"></td>
+                <td class="cell col_6 row_0 box_2" id="cell_6_0" onclick="_sudoku.changeActiveCell(6,0);"></td>
+                <td class="cell col_7 row_0 box_2" id="cell_7_0" onclick="_sudoku.changeActiveCell(7,0);"></td>
+                <td class="cell col_8 row_0 box_2" id="cell_8_0" onclick="_sudoku.changeActiveCell(8,0);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_1 box_0" id="cell_0_1" onclick="_sudoku.changeActiveCell(0,1);"></td>
+                <td class="cell col_1 row_1 box_0" id="cell_1_1" onclick="_sudoku.changeActiveCell(1,1);"></td>
+                <td class="cell col_2 row_1 box_0" id="cell_2_1" onclick="_sudoku.changeActiveCell(2,1);"></td>
+                <td class="cell col_3 row_1 box_1" id="cell_3_1" onclick="_sudoku.changeActiveCell(3,1);"></td>
+                <td class="cell col_4 row_1 box_1" id="cell_4_1" onclick="_sudoku.changeActiveCell(4,1);"></td>
+                <td class="cell col_5 row_1 box_1" id="cell_5_1" onclick="_sudoku.changeActiveCell(5,1);"></td>
+                <td class="cell col_6 row_1 box_2" id="cell_6_1" onclick="_sudoku.changeActiveCell(6,1);"></td>
+                <td class="cell col_7 row_1 box_2" id="cell_7_1" onclick="_sudoku.changeActiveCell(7,1);"></td>
+                <td class="cell col_8 row_1 box_2" id="cell_8_1" onclick="_sudoku.changeActiveCell(8,1);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_2 box_0" id="cell_0_2" onclick="_sudoku.changeActiveCell(0,2);"></td>
+                <td class="cell col_1 row_2 box_0" id="cell_1_2" onclick="_sudoku.changeActiveCell(1,2);"></td>
+                <td class="cell col_2 row_2 box_0" id="cell_2_2" onclick="_sudoku.changeActiveCell(2,2);"></td>
+                <td class="cell col_3 row_2 box_1" id="cell_3_2" onclick="_sudoku.changeActiveCell(3,2);"></td>
+                <td class="cell col_4 row_2 box_1" id="cell_4_2" onclick="_sudoku.changeActiveCell(4,2);"></td>
+                <td class="cell col_5 row_2 box_1" id="cell_5_2" onclick="_sudoku.changeActiveCell(5,2);"></td>
+                <td class="cell col_6 row_2 box_2" id="cell_6_2" onclick="_sudoku.changeActiveCell(6,2);"></td>
+                <td class="cell col_7 row_2 box_2" id="cell_7_2" onclick="_sudoku.changeActiveCell(7,2);"></td>
+                <td class="cell col_8 row_2 box_2" id="cell_8_2" onclick="_sudoku.changeActiveCell(8,2);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_3 box_3" id="cell_0_3" onclick="_sudoku.changeActiveCell(0,3);"></td>
+                <td class="cell col_1 row_3 box_3" id="cell_1_3" onclick="_sudoku.changeActiveCell(1,3);"></td>
+                <td class="cell col_2 row_3 box_3" id="cell_2_3" onclick="_sudoku.changeActiveCell(2,3);"></td>
+                <td class="cell col_3 row_3 box_4" id="cell_3_3" onclick="_sudoku.changeActiveCell(3,3);"></td>
+                <td class="cell col_4 row_3 box_4" id="cell_4_3" onclick="_sudoku.changeActiveCell(4,3);"></td>
+                <td class="cell col_5 row_3 box_4" id="cell_5_3" onclick="_sudoku.changeActiveCell(5,3);"></td>
+                <td class="cell col_6 row_3 box_5" id="cell_6_3" onclick="_sudoku.changeActiveCell(6,3);"></td>
+                <td class="cell col_7 row_3 box_5" id="cell_7_3" onclick="_sudoku.changeActiveCell(7,3);"></td>
+                <td class="cell col_8 row_3 box_5" id="cell_8_3" onclick="_sudoku.changeActiveCell(8,3);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_4 box_3" id="cell_0_4" onclick="_sudoku.changeActiveCell(0,4);"></td>
+                <td class="cell col_1 row_4 box_3" id="cell_1_4" onclick="_sudoku.changeActiveCell(1,4);"></td>
+                <td class="cell col_2 row_4 box_3" id="cell_2_4" onclick="_sudoku.changeActiveCell(2,4);"></td>
+                <td class="cell col_3 row_4 box_4" id="cell_3_4" onclick="_sudoku.changeActiveCell(3,4);"></td>
+                <td class="cell col_4 row_4 box_4" id="cell_4_4" onclick="_sudoku.changeActiveCell(4,4);"></td>
+                <td class="cell col_5 row_4 box_4" id="cell_5_4" onclick="_sudoku.changeActiveCell(5,4);"></td>
+                <td class="cell col_6 row_4 box_5" id="cell_6_4" onclick="_sudoku.changeActiveCell(6,4);"></td>
+                <td class="cell col_7 row_4 box_5" id="cell_7_4" onclick="_sudoku.changeActiveCell(7,4);"></td>
+                <td class="cell col_8 row_4 box_5" id="cell_8_4" onclick="_sudoku.changeActiveCell(8,4);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_5 box_3" id="cell_0_5" onclick="_sudoku.changeActiveCell(0,5);"></td>
+                <td class="cell col_1 row_5 box_3" id="cell_1_5" onclick="_sudoku.changeActiveCell(1,5);"></td>
+                <td class="cell col_2 row_5 box_3" id="cell_2_5" onclick="_sudoku.changeActiveCell(2,5);"></td>
+                <td class="cell col_3 row_5 box_4" id="cell_3_5" onclick="_sudoku.changeActiveCell(3,5);"></td>
+                <td class="cell col_4 row_5 box_4" id="cell_4_5" onclick="_sudoku.changeActiveCell(4,5);"></td>
+                <td class="cell col_5 row_5 box_4" id="cell_5_5" onclick="_sudoku.changeActiveCell(5,5);"></td>
+                <td class="cell col_6 row_5 box_5" id="cell_6_5" onclick="_sudoku.changeActiveCell(6,5);"></td>
+                <td class="cell col_7 row_5 box_5" id="cell_7_5" onclick="_sudoku.changeActiveCell(7,5);"></td>
+                <td class="cell col_8 row_5 box_5" id="cell_8_5" onclick="_sudoku.changeActiveCell(8,5);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_6 box_6" id="cell_0_6" onclick="_sudoku.changeActiveCell(0,6);"></td>
+                <td class="cell col_1 row_6 box_6" id="cell_1_6" onclick="_sudoku.changeActiveCell(1,6);"></td>
+                <td class="cell col_2 row_6 box_6" id="cell_2_6" onclick="_sudoku.changeActiveCell(2,6);"></td>
+                <td class="cell col_3 row_6 box_7" id="cell_3_6" onclick="_sudoku.changeActiveCell(3,6);"></td>
+                <td class="cell col_4 row_6 box_7" id="cell_4_6" onclick="_sudoku.changeActiveCell(4,6);"></td>
+                <td class="cell col_5 row_6 box_7" id="cell_5_6" onclick="_sudoku.changeActiveCell(5,6);"></td>
+                <td class="cell col_6 row_6 box_8" id="cell_6_6" onclick="_sudoku.changeActiveCell(6,6);"></td>
+                <td class="cell col_7 row_6 box_8" id="cell_7_6" onclick="_sudoku.changeActiveCell(7,6);"></td>
+                <td class="cell col_8 row_6 box_8" id="cell_8_6" onclick="_sudoku.changeActiveCell(8,6);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_7 box_6" id="cell_0_7" onclick="_sudoku.changeActiveCell(0,7);"></td>
+                <td class="cell col_1 row_7 box_6" id="cell_1_7" onclick="_sudoku.changeActiveCell(1,7);"></td>
+                <td class="cell col_2 row_7 box_6" id="cell_2_7" onclick="_sudoku.changeActiveCell(2,7);"></td>
+                <td class="cell col_3 row_7 box_7" id="cell_3_7" onclick="_sudoku.changeActiveCell(3,7);"></td>
+                <td class="cell col_4 row_7 box_7" id="cell_4_7" onclick="_sudoku.changeActiveCell(4,7);"></td>
+                <td class="cell col_5 row_7 box_7" id="cell_5_7" onclick="_sudoku.changeActiveCell(5,7);"></td>
+                <td class="cell col_6 row_7 box_8" id="cell_6_7" onclick="_sudoku.changeActiveCell(6,7);"></td>
+                <td class="cell col_7 row_7 box_8" id="cell_7_7" onclick="_sudoku.changeActiveCell(7,7);"></td>
+                <td class="cell col_8 row_7 box_8" id="cell_8_7" onclick="_sudoku.changeActiveCell(8,7);"></td>
+            </tr>
+            <tr>
+                <td class="cell col_0 row_8 box_6" id="cell_0_8" onclick="_sudoku.changeActiveCell(0,8);"></td>
+                <td class="cell col_1 row_8 box_6" id="cell_1_8" onclick="_sudoku.changeActiveCell(1,8);"></td>
+                <td class="cell col_2 row_8 box_6" id="cell_2_8" onclick="_sudoku.changeActiveCell(2,8);"></td>
+                <td class="cell col_3 row_8 box_7" id="cell_3_8" onclick="_sudoku.changeActiveCell(3,8);"></td>
+                <td class="cell col_4 row_8 box_7" id="cell_4_8" onclick="_sudoku.changeActiveCell(4,8);"></td>
+                <td class="cell col_5 row_8 box_7" id="cell_5_8" onclick="_sudoku.changeActiveCell(5,8);"></td>
+                <td class="cell col_6 row_8 box_8" id="cell_6_8" onclick="_sudoku.changeActiveCell(6,8);"></td>
+                <td class="cell col_7 row_8 box_8" id="cell_7_8" onclick="_sudoku.changeActiveCell(7,8);"></td>
+                <td class="cell col_8 row_8 box_8" id="cell_8_8" onclick="_sudoku.changeActiveCell(8,8);"></td>
+            </tr>
+        </table>
+        <br />
+        <table id="legendTable">
+            <tr>
+                <td class="legend" id="legend_1" onclick="_sudoku.handleLegendClick(1);">1<sup></sup></td>
+                <td class="legend" id="legend_2" onclick="_sudoku.handleLegendClick(2);">2<sup></sup></td>
+                <td class="legend" id="legend_3" onclick="_sudoku.handleLegendClick(3);">3<sup></sup></td>
+                <td class="legend" id="legend_4" onclick="_sudoku.handleLegendClick(4);">4<sup></sup></td>
+                <td class="legend" id="legend_5" onclick="_sudoku.handleLegendClick(5);">5<sup></sup></td>
+                <td class="legend" id="legend_6" onclick="_sudoku.handleLegendClick(6);">6<sup></sup></td>
+                <td class="legend" id="legend_7" onclick="_sudoku.handleLegendClick(7);">7<sup></sup></td>
+                <td class="legend" id="legend_8" onclick="_sudoku.handleLegendClick(8);">8<sup></sup></td>
+                <td class="legend" id="legend_9" onclick="_sudoku.handleLegendClick(9);">9<sup></sup></td>
+            </tr>
+        </table>
+        <br />
+        <table id="buttonTable">
+            <tr>
+                <td>
+                    <img id="pen" src="images/pen.png" title="Pen / Pencil Toggle" width="50" height="50" onclick="_sudoku.togglePen();" />
+                </td>
+                <td>
+                    <img src="images/candidates.png" title="Calculate Candidates" width="50" height="50" onclick="_sudoku.calculateCandidates();" />
+                </td>
+                <td>
+                    <img src="images/no-candidates.png" title="Clear Candidates" width="50" height="50" onclick="_sudoku.clearCandidates();" />
+                </td>
+                <td>
+                    <img id="warnings" src="images/warnings.png" title="Toggle Warnings" width="50" height="50" onclick="_sudoku.toggleWarnings();" />
+                </td>
+                <td>
+                    <img src="images/hint.png" title="Show A Hint" width="50" height="50" onclick="_sudoku.hint();" />
+                </td>
+                <td>
+                    <img src="images/solve.png" title="Solve This Puzzle" width="50" height="50" onclick="_sudoku.solve();" />
+                </td>
+                <td>
+                    <img src="images/startover.png" title="Start Over" width="50" height="50" onclick="_sudoku.startOver();" />
+                </td>
+                <td>
+                    <img src="images/timer.png" title="Pause / Resume" width="50" height="50" onclick="_sudoku.pause();" />
+                </td>
+            </tr>
+        </table>
+        <br />
+    </div>
+    <!--
+    <footer>
+        <div class="center" id="copyright">&copy; 2014 MuirDev</div>
+    </footer>
+    -->
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(initializeApp());
+</script>
